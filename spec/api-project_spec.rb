@@ -1,11 +1,11 @@
 describe "api-project" do
 
   before(:all) do
-    #@driver = Selenium::WebDriver.for :chrome
+    @driver = Selenium::WebDriver.for :chrome
     @email = "john.metcalfe@skybettingandgaming.com"
     @password = "password"
-    #@url = "http://178.62.40.209:3000/games/"
-    #@driver.get @url
+    @url = "http://178.62.40.209:3000/games/"
+    @driver.get @url
  end
 
  it "Valid creating new book" do
@@ -29,7 +29,7 @@ describe "api-project" do
 
 
   it "add a new game check it exists and delete it" do
-    exit
+
     create_game("Test Game", "Test Body")
     #Check voucher Exists
     page = @driver.page_source
