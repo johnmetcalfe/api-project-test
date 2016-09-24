@@ -4,8 +4,21 @@ describe "api-project" do
     @driver = Selenium::WebDriver.for :chrome
     @email = "john.metcalfe@skybettingandgaming.com"
     @password = "password"
-    @url = "http://localhost:3000/books"
+    @url = "http://178.62.40.209:3000/games/"
     @driver.get @url
+ end
+
+ it "Valid creating new book" do
+
+   book1 = HTTParty.post("http://178.62.40.209:3000/books", body:{title: "Test Book 1", body: "Test Body"})
+   r = HTTParty.get("http://178.62.40.209:3000/books/57e5897d6600c00ec01385cf")
+   books = HTTParty.get("http://178.62.40.209:3000/books")
+   expect(books.code).to eq 200
+   expect(books.message).to eq "OK"
+   expect(books.body).to include "Test Book 1"
+   expect(books.body).to include "Test Body"
+   #HTTParty.delete("http://178.62.40.209:3000/books/57e5897d6600c00ec01385cf")
+
  end
 
 
@@ -121,7 +134,7 @@ describe "api-project" do
   # end
 
   after(:all) do
-    #@driver.quit
+    @driver.quit
   end
 
 end
