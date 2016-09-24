@@ -12,6 +12,10 @@ require 'rspec'
 require 'httparty'
 require 'selenium-webdriver'
 require 'yaml'
+require 'JSON'
+require 'pry'
+require 'csv'
+require 'nokogiri'
 
 def create_book(title, body)
   @title = title

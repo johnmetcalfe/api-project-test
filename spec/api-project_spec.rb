@@ -1,28 +1,35 @@
 describe "api-project" do
 
   before(:all) do
-    @driver = Selenium::WebDriver.for :chrome
+    #@driver = Selenium::WebDriver.for :chrome
     @email = "john.metcalfe@skybettingandgaming.com"
     @password = "password"
-    @url = "http://178.62.40.209:3000/games/"
-    @driver.get @url
+    #@url = "http://178.62.40.209:3000/games/"
+    #@driver.get @url
  end
 
  it "Valid creating new book" do
 
-   book1 = HTTParty.post("http://178.62.40.209:3000/books", body:{title: "Test Book 1", body: "Test Body"})
+   book1 = HTTParty.post("http://localhost:3000/books", body:{title: "Test Book 1", body: "Test Body"})
    r = HTTParty.get("http://178.62.40.209:3000/books/57e5897d6600c00ec01385cf")
-   books = HTTParty.get("http://178.62.40.209:3000/books")
+   books = HTTParty.get("http://localhost:3000/books")
+   parse_page = Nokogiri::HTML(books)
+   books_array = []
+   parse_page.css('.content').css('div').map do |a|
+     post_id = a['id']
+     books_array.push(post_id)
+   end
    expect(books.code).to eq 200
    expect(books.message).to eq "OK"
    expect(books.body).to include "Test Book 1"
    expect(books.body).to include "Test Body"
-   #HTTParty.delete("http://178.62.40.209:3000/books/57e5897d6600c00ec01385cf")
+   HTTParty.delete("http://localhost:3000/books/#{books_array[-1]}")
 
  end
 
 
   it "add a new game check it exists and delete it" do
+    exit
     create_game("Test Game", "Test Body")
     #Check voucher Exists
     page = @driver.page_source
